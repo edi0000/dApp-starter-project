@@ -18,7 +18,7 @@ const App = () => {
   /**
    * デプロイされたコントラクトのアドレスを保持する変数を作成
    */
-  const contractAddress = "0x82F2660AC5FC5154F3D289Cd637BD15e9098D9C9";
+  const contractAddress = "0xc0efB9a452750541B997cc5a03Ffd81210d7Aa92";
   /**
    * ABIの内容を参照する変数を作成
    */
@@ -181,10 +181,11 @@ const App = () => {
         let contractBalance_post = await provider.getBalance(
           wavePortalContract.address
         );
+
         if (contractBalance_post < contractBalance) {
           console.log("User won ETH!");
         } else {
-          console.log("User did'nt win ETH");
+          console.log("User didn't win ETH");
         }
         console.log(
           "Contract balance after wave:",
