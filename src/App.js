@@ -10,6 +10,7 @@ const App = () => {
    * ユーザーのパブリックウォレットを保存するために使用する状態変数を定義します。
    */
   const [currentAccount, setCurrentAccount] = useState("");
+  const [currentBalance, setCurrentBalance] = useState("");
   const [messageValue, setMessageValue] = useState("");
   const [allWaves, setAllWaves] = useState([]);
 
@@ -107,7 +108,12 @@ const App = () => {
       if (accounts.length !== 0) {
         const account = accounts[0];
         console.log("Found an authorized account:", account);
+
         setCurrentAccount(account);
+
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        let accountBalance = await provider.getBalance(account);
+        setCurrentBalance(ethers.utils.formatEther(accountBalance).toString())
       } else {
         console.log("No authorized account found");
       }
@@ -130,6 +136,10 @@ const App = () => {
       });
       console.log("Connected: ", accounts[0]);
       setCurrentAccount(accounts[0]);
+
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      let accountBalance = await provider.getBalance(accounts[0]);
+      setCurrentBalance(ethers.utils.formatEther(accountBalance).toString())
     } catch (error) {
       console.log(error);
     }
@@ -180,6 +190,9 @@ const App = () => {
           "Contract balance after wave:",
           ethers.utils.formatEther(contractBalance_post)
         );
+
+        let accountBalance = await provider.getBalance(currentAccount);
+        setCurrentBalance(ethers.utils.formatEther(accountBalance).toString())
       } else {
         console.log("Ethereum object doesn't exist!");
       }
@@ -213,6 +226,15 @@ const App = () => {
             ✨
           </span>
         </div>
+        <br />
+        {/* ETHの残高を表示 */}
+        {currentAccount &&( 
+          <div>
+          Address:{currentAccount}
+          <br />
+          Balance:{currentBalance}
+          </div>
+        )}
         <br />
         {/* メッセージボックスを実装 */}
         {currentAccount && (
